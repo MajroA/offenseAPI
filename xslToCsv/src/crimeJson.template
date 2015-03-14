@@ -22,9 +22,10 @@
         }
     },
 
+    "@timestamp" : $caseStart,
     "time" : {
         "caseStart" : $caseStart,
-        "caseEnd" : $caseStart,
+        "caseEnd" : $caseEnd,
         "processed" : $processed
     },
 

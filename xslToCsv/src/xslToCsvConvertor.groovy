@@ -30,8 +30,8 @@ class Solution {
 }
 
 class Time {
-    def caseStart
-    def caseEnd
+    Date caseStart
+    Date caseEnd
     def processed
 }
 
@@ -65,7 +65,10 @@ class Crime {
 }
 
 def formatValue(value) {
-    return value != null && value != "" ? value instanceof Integer ? value : "\"${value}\"" : null
+    return value != null && value != "" ?
+        value instanceof Integer ?
+            value : value instanceof Date ?
+            "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ss')}\"" : "\"${value}\"" : null
 }
 
 def crimes = []
@@ -90,8 +93,8 @@ new File("pardubice_mestska_policie_komplet 2014.csv").withReader("UTF-8") {read
             crime.solution.fine.amount = splitLine[6] ==~ /[\d]+/ ? Integer.parseInt(splitLine[6]) : null
             crime.solution.fine.currency = "CZK"
             crime.time = new Time()
-            crime.time.caseStart = splitLine[8]
-            crime.time.caseEnd = splitLine[9]
+            crime.time.caseStart = splitLine[8] != null && splitLine[8] != "" ? Date.parse("yyyy-MM-dd hh:mm:ss.sss" ,splitLine[8]) : null
+            crime.time.caseEnd = splitLine[9] != null && splitLine[9] != "" ? Date.parse("yyyy-MM-dd hh:mm:ss.sss" ,splitLine[9]) : null
             crime.time.processed = ""
             crime.place = new Place()
             crime.place.city = splitLine[10]
@@ -119,7 +122,7 @@ new File("export.json").withWriter("UTF-8") {writer ->
     templateFile = new File(templatePath)
     def template = engine.createTemplate(templateFile.newReader("UTF-8"))
 
-    writer << "{[\n"
+//    writer << "[\n"
 
     crimes.eachWithIndex { crime, index ->
         println index
@@ -150,9 +153,10 @@ new File("export.json").withWriter("UTF-8") {writer ->
         ]
 
         def result = template.make(binding)
-        writer << result.toString() + "\n"
+        writer << "{ \"create\": { \"_index\": \"pardubice\", \"_type\": \"prestupek\"}}\n"
+        writer << result.toString().replaceAll(/^[\s]+/, '').replace('\n', '') + "\n"
     }
-    writer << "]}"
+//    writer << "]"
 }
 
 
