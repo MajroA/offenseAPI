@@ -20,7 +20,7 @@ class CaseType {
 }
 
 class Fine {
-    def amount
+    Integer amount
     def currency
 }
 
@@ -50,8 +50,8 @@ class PoliceOfficer {
 
 class Offender {
     def name
-    def yearOfBirth
-    def age
+    Integer yearOfBirth
+    Integer age
 }
 
 class Crime {
@@ -64,11 +64,16 @@ class Crime {
     Offender offender
 }
 
+def formatValue(value) {
+    return value != null && value != "" ? value instanceof Integer ? value : "\"${value}\"" : null
+}
+
 def crimes = []
 
 new File("pardubice_mestska_policie_komplet 2014.csv").withReader("UTF-8") {reader ->
+    def index = 0
     reader.splitEachLine(';'){ splitLine ->
-        if(splitLine.size() > 0) {
+        if(index++ > 0 && splitLine.size() > 0) {
             Crime crime = new Crime()
             crime.caseId = splitLine[0]
             crime.caseType = new CaseType()
@@ -82,16 +87,16 @@ new File("pardubice_mestska_policie_komplet 2014.csv").withReader("UTF-8") {read
             crime.solution = new Solution()
             crime.solution.form = splitLine[5]
             crime.solution.fine = new Fine()
-            crime.solution.fine.amount = splitLine[6]
+            crime.solution.fine.amount = splitLine[6] ==~ /[\d]+/ ? Integer.parseInt(splitLine[6]) : null
             crime.solution.fine.currency = "CZK"
             crime.time = new Time()
             crime.time.caseStart = splitLine[8]
             crime.time.caseEnd = splitLine[9]
-            crime.time.processed = "?????"
+            crime.time.processed = ""
             crime.place = new Place()
             crime.place.city = splitLine[10]
             crime.place.streetName = splitLine[11]
-            crime.place.partOfStreet = "???"
+            crime.place.partOfStreet = ""
             crime.place.latitude = splitLine[21]
             crime.place.longitude = splitLine[22]
             crime.policeOfficer = new PoliceOfficer()
@@ -99,8 +104,8 @@ new File("pardubice_mestska_policie_komplet 2014.csv").withReader("UTF-8") {read
             crime.policeOfficer.solutionRole = splitLine[17]
             crime.offender = new Offender()
             crime.offender.name = splitLine[18]
-            crime.offender.yearOfBirth = splitLine[23]
-            crime.offender.age = "TODO"
+            crime.offender.yearOfBirth = crime.offender.yearOfBirth ==~ /[\d]+/ ? Integer.parseInt(splitLine[24]) : null
+            crime.offender.age = crime.offender.yearOfBirth != null ? (Calendar.getInstance().get(Calendar.YEAR) - 1900 - crime.offender.yearOfBirth) : null
 
             crimes << crime
         }
@@ -124,25 +129,24 @@ new File("export.json").withWriter("UTF-8") {writer ->
                 "type": crime.caseType.type,
                 "subtype": crime.caseType.subtype,
                 "detail": crime.caseType.detail,
-                "metadata": crime.caseType.metadata,
-                "vehicleRegistrationPlate": crime.caseType.metadata.vehicleRegistrationPlate,
-                "vehicleBrand": crime.caseType.metadata.vehicleBrand,
-                "form": crime.solution.form,
-                "amount": crime.solution.fine.amount,
-                "currency": crime.solution.fine.currency,
-                "caseStart": crime.time.caseStart,
-                "caseEnd": crime.time.caseEnd,
-                "processed": crime.time.processed,
-                "city": crime.place.city,
-                "streetName": crime.place.streetName,
-                "partOfStreet": crime.place.partOfStreet,
-                "latitude": crime.place.latitude,
-                "longitude": crime.place.longitude,
-                "id": crime.policeOfficer.id,
-                "solutionRole": crime.policeOfficer.solutionRole,
-                "name": crime.offender.name,
-                "yearOfBirth": crime.offender.yearOfBirth,
-                "age": crime.offender.age
+                "vehicleRegistrationPlate": formatValue(crime.caseType.metadata.vehicleRegistrationPlate),
+                "vehicleBrand": formatValue(crime.caseType.metadata.vehicleBrand),
+                "form": formatValue(crime.solution.form),
+                "amount": formatValue(crime.solution.fine.amount),
+                "currency": formatValue(crime.solution.fine.currency),
+                "caseStart": formatValue(crime.time.caseStart),
+                "caseEnd": formatValue(crime.time.caseEnd),
+                "processed": formatValue(crime.time.processed),
+                "city": formatValue(crime.place.city),
+                "streetName": formatValue(crime.place.streetName),
+                "partOfStreet": formatValue(crime.place.partOfStreet),
+                "latitude": formatValue(crime.place.latitude),
+                "longitude": formatValue(crime.place.longitude),
+                "id": formatValue(crime.policeOfficer.id),
+                "solutionRole": formatValue(crime.policeOfficer.solutionRole),
+                "name": formatValue(crime.offender.name),
+                "yearOfBirth": formatValue(crime.offender.yearOfBirth),
+                "age": formatValue(crime.offender.age)
         ]
 
         def result = template.make(binding)

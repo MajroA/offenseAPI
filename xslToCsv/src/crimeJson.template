@@ -5,48 +5,48 @@
 
     "caseType": {
         "category": "$category",
-        "type": "$category",
+        "type": "$type",
         "subtype": "$subtype",
         "detail": "$detail",
         "metadata": {
-            "vehicleRegistrationPlate" : "$vehicleRegistrationPlate",
-            "vehicleBrand" : "$vehicleBrand"
+            "vehicleRegistrationPlate" : $vehicleRegistrationPlate,
+            "vehicleBrand" : $vehicleBrand
         }
     },
 
     "solution" : {
-        "form" : "$form",
+        "form" : $form,
         "fine" : {
-            "amount": "$amount",
-            "currency": "$currency"
+            "amount": $amount,
+            "currency": $currency
         }
     },
 
     "time" : {
-        "caseStart" : "$caseStart",
-        "caseEnd" : "$caseStart",
-        "processed" : "$processed"
+        "caseStart" : $caseStart,
+        "caseEnd" : $caseStart,
+        "processed" : $processed
     },
 
     "place" : {
-        "city" : "$city",
-        "streetName" : "$streetName",
-        "partOfStreet" : "$partOfStreet",
+        "city" : $city,
+        "streetName" : $streetName,
+        "partOfStreet" : $partOfStreet,
         "location" : {
-            "lat" : "$latitude",
-            "lon" : "$longitude"
+            "lat" : $latitude,
+            "lon" : $longitude
         }
 
     },
 
     "policeOfficer" : {
-        "id": "$id",
-        "solutionRole": "$solutionRole"
+        "id": $id,
+        "solutionRole": $solutionRole
     },
 
     "offender" : {
-        "name" : "$name",
-        "yearOfBirth": "yearOfBirth",
-        "age" : "$age"
+        "name" : $name,
+        "yearOfBirth": $yearOfBirth,
+        "age" : $age
     }
 },
