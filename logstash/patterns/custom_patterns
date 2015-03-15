@@ -1,0 +1,7 @@
+NOT_COMMA [^,]*
+NOT_NUMBER [^\d]*
+NOT_SEMICOLON [^;]*
+NUMBER_NOT_COMMA \d[^,]*
+TIMESTAMP_US %{MONTHNUM}/%{MONTHDAY}/%{YEAR} %{HOUR}:?%{MINUTE} (?:AM|PM)
+PARAGRAPH (§ \d+)[a-z]?
+LETTER písm. [a-z]\)
