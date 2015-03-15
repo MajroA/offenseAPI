@@ -1,0 +1,5 @@
+cislo jednaci;typ (o - ostatni, p - prestupek, t - trestny cin);typ prestupku (detail);typ prestupku (detail #2);detail;zpusob reseni prestupku;vyse pokuty;Sloupec9;zacatek;konec;mesto (muze byt nejen Pardubice);ulice;spz;typ vozidla;datum vyrizeni;cas vyrizeni;sluzebni cisla strazniku;role v udalosti;jmeno pachatele;Sloupec24;Sloupec25;longitude;latitude;duplicita;rocnik pachatele
+2014/00001;O;PCO;objekt;planý poplach;Kontrola objektu;0;O;2014-01-01 00:13:00.000;2014-01-01 00:30:00.000;Pardubice;NÁMESTÍ REPUBLIKY;;;1/1/2014;1:21:00;73;provedl;;;;15.7780505667175;50.03734939001;N;
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
