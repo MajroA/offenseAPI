@@ -2,8 +2,8 @@ import groovy.json.JsonBuilder
 import groovy.text.GStringTemplateEngine
 
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 /**
  * User: Miro
@@ -47,20 +47,9 @@ new File(importFileName.path).withReader("UTF-8") {reader ->
 }
 
 /**
- * getting areas -- TODO: find something to solve P4M problem
+ * getting areas
  */
-//CountDownLatch doneSignal = new CountDownLatch(crimes.size());
-//
-//def crimesSubLists = crimes.collate(1000, 1000)
-//crimesSubLists.eachWithIndex {crimesSub, index ->
-//    new Thread(new AreasFromLocation(crimesSub, doneSignal, index)).start();
-//}
-//
-//try {
-//    doneSignal.await();
-//} catch (InterruptedException E) {
-//    // handle
-//}
+//AreasFromLocationDownloader.download(crimes)
 
 /**
  * conver to JSON
