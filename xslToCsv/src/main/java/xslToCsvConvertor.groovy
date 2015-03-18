@@ -47,7 +47,7 @@ new File(importFileName.path).withReader("UTF-8") {reader ->
 /**
  * getting areas
  */
-//AreasFromLocationDownloader.download(crimes)
+AreasFromLocationDownloader.download(crimes)
 
 /**
  * write as JSON
@@ -90,10 +90,12 @@ new File(exportFileName).withWriter("UTF-8") {writer ->
         ]
 
         def result = template.make(binding)
-        writer << "{ \"create\": { \"_index\": \"${exportFirstLine['index']}\", \"_type\": \"${exportFirstLine['type']}\"}}\n"
-        writer << result.toString().replaceAll(/^[\s]+/, '').replace('\n', '') + "\n"
+        writer.println("{ \"create\": { \"_index\": \"${exportFirstLine['index']}\", \"_type\": \"${exportFirstLine['type']}\"}}")
+        writer.println(result.toString().replaceAll(/^[\s]+/, '').replace('\n', ''))
+        writer.flush()
     }
 
+    writer.close()
 }
 
 
