@@ -2,7 +2,6 @@ import groovyx.gpars.GParsPool
 import groovyx.net.http.HTTPBuilder
 
 /**
- * Created with IntelliJ IDEA.
  * User: Miro
  * Date: 15.3.15
  * Time: 11:30

@@ -1,5 +1,4 @@
 /**
- * Created with IntelliJ IDEA.
  * User: Miro
  * Date: 15.3.15
  * Time: 9:18

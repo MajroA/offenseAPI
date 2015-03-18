@@ -1,9 +1,6 @@
 import groovy.json.JsonBuilder
+import groovy.json.StringEscapeUtils
 import groovy.text.GStringTemplateEngine
-
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 /**
  * User: Miro
@@ -11,25 +8,26 @@ import java.util.concurrent.TimeUnit
  * Time: 14:27
  */
 
-//def importFileName = getClass().getResource("prestupky_pardubice_mestska_policie_komplet_2014.csv")
-def importFileName = getClass().getResource("prestupky_praha_6_2013_5_2014.csv")
+def importFileName = getClass().getResource("prestupky_pardubice_mestska_policie_komplet_2014.csv")
+//def importFileName = getClass().getResource("prestupky_praha_6_2013_5_2014.csv")
 
-//def exportFileName = "prestupky-pardubice.json"
-def exportFileName = "prestupky-praha.json"
+def exportFileName = "prestupky-pardubice.json"
+//def exportFileName = "prestupky-praha.json"
 
 def jsonTemplateName = getClass().getResource("crimeJson.template")
 
-//def exportFirstLine = ["index" :"prestupky", "type": "prestupek-pardubice"]
-def exportFirstLine = ["index" :"prestupky", "type": "prestupek-praha"]
+def exportFirstLine = ["index" :"prestupky", "type": "prestupek-pardubice"]
+//def exportFirstLine = ["index" :"prestupky", "type": "prestupek-praha"]
 
-//Crime crimeInstance = new PardubiceCrime()
-Crime crimeInstance = new PrahaCrime()
+Crime crimeInstance = new PardubiceCrime()
+//Crime crimeInstance = new PrahaCrime()
 
 def formatValue(value) {
     return value != null && value != "" ?
         value instanceof Integer ?
             value : value instanceof Date ?
-            "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ss')}\"" : "\"${value.replace("\"",'')}\"" : null
+            "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ss')}\"" : value instanceof String ?
+                "\"${value.replace("\"",'')}\"" : value : null
 }
 
 def crimes = []
@@ -52,7 +50,7 @@ new File(importFileName.path).withReader("UTF-8") {reader ->
 //AreasFromLocationDownloader.download(crimes)
 
 /**
- * conver to JSON
+ * write as JSON
  */
 
 new File(exportFileName).withWriter("UTF-8") {writer ->
@@ -83,7 +81,7 @@ new File(exportFileName).withWriter("UTF-8") {writer ->
                 "partOfStreet": formatValue(crime.place.partOfStreet),
                 "latitude": formatValue(crime.place.latitude),
                 "longitude": formatValue(crime.place.longitude),
-                "areas": new JsonBuilder(crime.place.areas).toString(),
+                "areas": crime.place.areas != null ? StringEscapeUtils.unescapeJavaScript(new JsonBuilder(crime.place.areas).toString()) : null,
                 "id": formatValue(crime.policeOfficer.id),
                 "solutionRole": formatValue(crime.policeOfficer.solutionRole),
                 "name": formatValue(crime.offender.name),
