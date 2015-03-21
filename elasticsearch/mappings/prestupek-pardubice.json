@@ -1,0 +1,107 @@
+{
+  "prestupek-pardubice": {
+    "_timestamp": {
+      "enabled": true,
+      "path": "time.caseStart"
+    },
+    "properties": {
+      "@timestamp": {
+        "type": "date",
+        "format": "dateOptionalTime"
+      },
+      "@version": {
+        "type": "string"
+      },
+      "caseType": {
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "caseType.detail": {
+        "type": "cs_hunspell"
+      },
+      "caseType.subtype": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "caseType.type": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "message": {
+        "type": "string"
+      },
+      "offender": {
+        "type": "object"
+      },
+      "place": {
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "location": {
+            "type": "geo_point",
+            "lat_lon": true,
+            "geohash": true,
+            "geohash_precision": "1m"
+          },
+          "partOfStreet": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          }
+        }
+      },
+      "place.city": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "place.streetName": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "solution": {
+        "properties": {
+          "fine": {
+            "type": "object"
+          }
+        }
+      },
+      "solution.fine.amount": {
+        "type": "integer"
+      },
+      "time": {
+        "properties": {
+          "caseStart": {
+            "type": "date",
+            "format": "dateOptionalTime"
+          },
+          "hour": {
+            "type": "string"
+          },
+          "month": {
+            "type": "string"
+          }
+        }
+      },
+      "time.caseEnd": {
+        "type": "date",
+        "format": "dateOptionalTime"
+      },
+      "time.caseStart": {
+        "type": "date",
+        "format": "dateOptionalTime"
+      },
+      "type": {
+        "type": "string",
+        "index": "not_analyzed"
+      }
+    }
+  }
+}
