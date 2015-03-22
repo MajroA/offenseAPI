@@ -31,8 +31,8 @@ class PardubiceCrime extends Crime {
         crime.place.city = splitLine[10]
         crime.place.streetName = splitLine[11]
         crime.place.partOfStreet = ""
-        crime.place.latitude = splitLine[22]
-        crime.place.longitude = splitLine[21]
+        crime.place.latitude = splitLine[22] != null ? Float.parseFloat(splitLine[22]) : null
+        crime.place.longitude = splitLine[21] != null ? Float.parseFloat(splitLine[21]) : null
         crime.policeOfficer = new PoliceOfficer()
         crime.policeOfficer.id = splitLine[16]
         crime.policeOfficer.solutionRole = splitLine[17]

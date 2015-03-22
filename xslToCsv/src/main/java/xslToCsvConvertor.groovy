@@ -16,10 +16,10 @@ Crime crimeInstance = ParserConf.INSTANCE.crimeInstance
 
 def formatValue(value) {
     if (value != null) {
-        if (value instanceof Integer)
+        if (value instanceof Integer || value instanceof Float)
             return value
         else if (value instanceof Date)
-            return "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ss')}\""
+            return "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ssZ')}\""
         else if (value != "")
             return "\"${value.replace("\"",'')}\""
         else

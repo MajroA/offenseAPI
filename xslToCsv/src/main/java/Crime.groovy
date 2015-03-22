@@ -53,8 +53,8 @@ class Place {
     def city
     def streetName
     def partOfStreet
-    def latitude
-    def longitude
+    Float latitude
+    Float longitude
 
     /** area from http://crimehackathon.azurewebsites.net/ */
     def areas

@@ -1,4 +1,8 @@
 {
+    "message": [""],
+
+    "@version": "1",
+
 	"caseId": $caseId,
 
     "type": $crimeType,
@@ -9,7 +13,6 @@
         "subtype": $subtype,
         "detail": $detail,
         "metadata": {
-            "vehicleRegistrationPlate" : $vehicleRegistrationPlate,
             "vehicleBrand" : $vehicleBrand
         }
     },
@@ -34,8 +37,8 @@
         "streetName" : $streetName,
         "partOfStreet" : $partOfStreet,
         "location" : {
-            "lat" : $latitude,
-            "lon" : $longitude
+            "lon" : $longitude,
+            "lat" : $latitude
         },
         "areas": $areas
 
@@ -51,4 +54,4 @@
         "yearOfBirth": $yearOfBirth,
         "age" : $age
     }
-},
+}
