@@ -8,26 +8,23 @@ import groovy.text.GStringTemplateEngine
  * Time: 14:27
  */
 
-def importFileName = getClass().getResource("prestupky_pardubice_mestska_policie_komplet_2014.csv")
-//def importFileName = getClass().getResource("prestupky_praha_6_2013_5_2014.csv")
-
-def exportFileName = "prestupky-pardubice.json"
-//def exportFileName = "prestupky-praha.json"
-
-def jsonTemplateName = getClass().getResource("crimeJson.template")
-
-def exportFirstLine = ["index" :"prestupky", "type": "prestupek-pardubice"]
-//def exportFirstLine = ["index" :"prestupky", "type": "prestupek-praha"]
-
-Crime crimeInstance = new PardubiceCrime()
-//Crime crimeInstance = new PrahaCrime()
+def importFileName = getClass().getResource(ParserConf.INSTANCE.importFileName)
+def exportFileName = ParserConf.INSTANCE.exportFileName
+def jsonTemplateName = getClass().getResource(ParserConf.INSTANCE.jsonTemplateName)
+def exportFirstLine = ParserConf.INSTANCE.exportFirstLine
+Crime crimeInstance = ParserConf.INSTANCE.crimeInstance
 
 def formatValue(value) {
-    return value != null && value != "" ?
-        value instanceof Integer ?
-            value : value instanceof Date ?
-            "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ss')}\"" : value instanceof String ?
-                "\"${value.replace("\"",'')}\"" : value : null
+    if (value != null) {
+        if (value instanceof Integer)
+            return value
+        else if (value instanceof Date)
+            return "\"${value.format('yyyy-MM-dd\'T\'HH:mm:ss')}\""
+        else if (value != "")
+            return "\"${value.replace("\"",'')}\""
+        else
+            return null
+    }
 }
 
 def crimes = []
@@ -47,7 +44,8 @@ new File(importFileName.path).withReader("UTF-8") {reader ->
 /**
  * getting areas
  */
-AreasFromLocationDownloader.download(crimes)
+if (ParserConf.INSTANCE.downloadAreas)
+    AreasFromLocationDownloader.download(crimes)
 
 /**
  * write as JSON
