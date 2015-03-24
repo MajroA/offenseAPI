@@ -27,7 +27,7 @@ class ParserConf {
             "crimeJson.template",
             ["index" :"prestupky", "type": "prestupek-pardubice"],
             new PardubiceCrime(),
-            false
+            true
     )
 
     private static ParserConf INSTANCE_PRAHA = new ParserConf(
@@ -39,6 +39,6 @@ class ParserConf {
             false
     )
 
-    static ParserConf INSTANCE = INSTANCE_PRAHA;
+    static ParserConf INSTANCE = INSTANCE_PARDUBICE;
 
 }
