@@ -66,6 +66,18 @@
         "type": "string",
         "index": "not_analyzed"
       },
+      "place.areas.city.name": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "place.areas.district.name": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "place.areas.region.name": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
       "solution": {
         "properties": {
           "fine": {
